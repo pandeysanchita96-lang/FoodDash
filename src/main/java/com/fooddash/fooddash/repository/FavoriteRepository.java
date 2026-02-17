@@ -1,0 +1,15 @@
+package com.fooddash.fooddash.repository;
+
+import com.fooddash.fooddash.entity.Favorite;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
+
+@Repository
+public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
+    List<Favorite> findByUserId(Long userId);
+
+    Optional<Favorite> findByUserIdAndVendorId(Long userId, Long vendorId);
+}
