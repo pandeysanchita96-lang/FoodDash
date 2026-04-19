@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import orderService from '../../services/orderService';
 import { TrendingUp, ShoppingBag, BarChart2, DollarSign, Package, Calendar, ArrowUpRight, Target } from 'lucide-react';
 
@@ -7,11 +7,7 @@ const VendorAnalytics = ({ selectedMetric, isGlobal }) => {
     const [loading, setLoading] = useState(true);
     const [hoverItem, setHoverItem] = useState(null);
 
-    useEffect(() => {
-        fetchData();
-    }, [isGlobal]);
-
-    const fetchData = async () => {
+    const fetchData = useCallback(async () => {
         setLoading(true);
         try {
             const data = isGlobal
@@ -23,7 +19,11 @@ const VendorAnalytics = ({ selectedMetric, isGlobal }) => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [isGlobal]);
+
+    useEffect(() => {
+        fetchData();
+    }, [fetchData]);
 
     const metrics = useMemo(() => {
         const totalEarnings = orders.reduce((sum, o) => sum + o.totalAmount, 0);
@@ -89,7 +89,6 @@ const VendorAnalytics = ({ selectedMetric, isGlobal }) => {
         const getY = (v) => height - padding - ((v / maxValue) * (height - padding * 2));
 
         let points = "";
-        let areaPoints = "";
 
         if (data.length === 1) {
             const y = getY(data[0].value);

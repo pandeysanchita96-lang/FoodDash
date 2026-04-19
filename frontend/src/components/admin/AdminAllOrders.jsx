@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import adminService from '../../services/adminService';
-import { ShoppingBag, Search, Filter, ArrowUpDown, MoreVertical, MapPin, Clock } from 'lucide-react';
+import { Search, Filter, ArrowUpDown, MoreVertical, MapPin } from 'lucide-react';
 
 const AdminAllOrders = () => {
     const [orders, setOrders] = useState([]);

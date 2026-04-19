@@ -5,7 +5,7 @@ import AdminStats from './AdminStats';
 import AdminAllOrders from './AdminAllOrders';
 import UserManager from './UserManager';
 import VendorApproval from './VendorApproval';
-import { Users, Store, LogOut, Shield, BarChart3, ListOrdered } from 'lucide-react';
+import { Users, LogOut, Shield, BarChart3, ListOrdered } from 'lucide-react';
 
 const AdminDashboard = () => {
     const user = authService.getCurrentUser();

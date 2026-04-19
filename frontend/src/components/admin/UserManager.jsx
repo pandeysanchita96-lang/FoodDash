@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import adminService from '../../services/adminService';
-import { UserCheck, UserX, CheckCircle, XCircle } from 'lucide-react';
+import { UserCheck, UserX } from 'lucide-react';
 import { useNotification } from '../../context/NotificationContext';
 
 const UserManager = () => {

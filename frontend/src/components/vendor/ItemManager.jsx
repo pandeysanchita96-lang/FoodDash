@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import itemService from '../../services/itemService';
-import { Plus, Edit2, Trash2, X, Package, DollarSign, Tag, FileText, Check } from 'lucide-react';
+import { Plus, Edit2, Trash2, X, Package, Tag, Check } from 'lucide-react';
 import { useNotification } from '../../context/NotificationContext';
 import { getItemImage } from '../../utils/imageUtils';
 
