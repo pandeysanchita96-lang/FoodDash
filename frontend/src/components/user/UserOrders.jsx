@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import orderService from '../../services/orderService';
-import { Clock, CheckCircle, Package, Truck, AlertCircle, RefreshCcw, ChevronRight, MapPin, Store, FileText } from 'lucide-react';
+import { Clock, CheckCircle, Package, Truck, AlertCircle, RefreshCcw, Store, FileText } from 'lucide-react';
 import { useNotification } from '../../context/NotificationContext';
 import InvoiceModal from './InvoiceModal';
 

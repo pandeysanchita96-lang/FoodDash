@@ -1,6 +1,6 @@
 import React from 'react';
 import authService from '../../services/authService';
-import { User, Mail, MapPin, Edit3, ShieldCheck, Bell, CreditCard, Home, Shield, ChevronRight } from 'lucide-react';
+import { Mail, MapPin, Edit3, ShieldCheck, Bell, CreditCard, Home, Shield } from 'lucide-react';
 import { useNotification } from '../../context/NotificationContext';
 
 const UserProfile = () => {
