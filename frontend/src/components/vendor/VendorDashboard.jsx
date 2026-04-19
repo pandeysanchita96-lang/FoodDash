@@ -15,11 +15,22 @@ const VendorDashboard = () => {
     const { isDarkMode, toggleTheme } = useTheme();
     const [activeTab, setActiveTab] = useState('orders');
     const [stats, setStats] = useState(null);
-    const [orderFilter, setOrderFilter] = useState('ALL');
+    const [orderFilter] = useState('ALL');
     const [selectedMetric, setSelectedMetric] = useState('earnings');
     const [notifications, setNotifications] = useState([]);
     const [ordersKey, setOrdersKey] = useState(0);
     const [isGlobalView, setIsGlobalView] = useState(false);
+
+    const fetchStats = useCallback(async () => {
+        try {
+            const data = isGlobalView
+                ? await orderService.getAllStats()
+                : await orderService.getVendorStats();
+            setStats(data);
+        } catch (err) {
+            console.error("Failed to fetch statistics", err);
+        }
+    }, [isGlobalView]);
 
     // Handle new order from WebSocket
     const handleNewOrder = useCallback((orderData) => {
@@ -43,7 +54,7 @@ const VendorDashboard = () => {
             fetchStats();
             setOrdersKey(prev => prev + 1);
         }, 500);
-    }, []);
+    }, [fetchStats]);
 
     // Setup WebSocket connection - subscribe to both for admins/global view
     const topics = [`/topic/vendor/${user?.vendorId}/orders`, '/topic/all-orders'];
@@ -51,22 +62,7 @@ const VendorDashboard = () => {
 
     useEffect(() => {
         fetchStats();
-    }, []);
-
-    const fetchStats = async () => {
-        try {
-            const data = isGlobalView
-                ? await orderService.getAllStats()
-                : await orderService.getVendorStats();
-            setStats(data);
-        } catch (err) {
-            console.error("Failed to fetch statistics", err);
-        }
-    };
-
-    useEffect(() => {
-        fetchStats();
-    }, [isGlobalView]);
+    }, [fetchStats]);
 
     const handleChipClick = (metric, tab = 'analytics') => {
         setSelectedMetric(metric);

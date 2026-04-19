@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback, useState } from 'react';
+import { useEffect, useRef, useCallback, useState, useMemo } from 'react';
 import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 
@@ -6,8 +6,11 @@ export const useWebSocket = (topics = [], onNewOrder) => {
     const clientRef = useRef(null);
     const [isConnected, setIsConnected] = useState(false);
 
+    const topicsString = useMemo(() => JSON.stringify(topics), [topics]);
+
     const connect = useCallback(() => {
-        if (!topics || topics.length === 0) return;
+        const currentTopics = JSON.parse(topicsString);
+        if (!currentTopics || currentTopics.length === 0) return;
 
         const client = new Client({
             webSocketFactory: () => new SockJS('http://localhost:8081/ws'),
@@ -18,11 +21,11 @@ export const useWebSocket = (topics = [], onNewOrder) => {
                 console.log('[WebSocket]', str);
             },
             onConnect: () => {
-                console.log('[WebSocket] Connected to topics:', topics);
+                console.log('[WebSocket] Connected to topics:', currentTopics);
                 setIsConnected(true);
 
                 // Subscribe to each provided topic
-                topics.forEach(topic => {
+                currentTopics.forEach(topic => {
                     client.subscribe(topic, (message) => {
                         try {
                             const data = JSON.parse(message.body);
@@ -47,7 +50,7 @@ export const useWebSocket = (topics = [], onNewOrder) => {
 
         client.activate();
         clientRef.current = client;
-    }, [JSON.stringify(topics), onNewOrder]);
+    }, [topicsString, onNewOrder]);
 
     const disconnect = useCallback(() => {
         if (clientRef.current) {

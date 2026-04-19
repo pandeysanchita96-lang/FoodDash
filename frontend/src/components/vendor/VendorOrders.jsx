@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import orderService from '../../services/orderService';
 import { Package, Truck, CheckCircle, Clock, MapPin, ChevronRight, ShoppingBag, XCircle, User, RefreshCw } from 'lucide-react';
 import { useNotification } from '../../context/NotificationContext';
@@ -14,11 +14,7 @@ const VendorOrders = ({ initialFilter = 'ALL', isGlobal = false }) => {
         setFilter(initialFilter);
     }, [initialFilter]);
 
-    useEffect(() => {
-        fetchOrders();
-    }, []);
-
-    const fetchOrders = async () => {
+    const fetchOrders = useCallback(async () => {
         setLoading(true);
         setError(null);
         try {
@@ -59,7 +55,11 @@ const VendorOrders = ({ initialFilter = 'ALL', isGlobal = false }) => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [isGlobal, showNotification]);
+
+    useEffect(() => {
+        fetchOrders();
+    }, [fetchOrders]);
 
     const handleUpdateStatus = async (orderId, status) => {
         try {

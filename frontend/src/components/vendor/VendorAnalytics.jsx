@@ -92,13 +92,10 @@ const VendorAnalytics = ({ selectedMetric, isGlobal }) => {
         let areaPoints = "";
 
         if (data.length === 1) {
-            const x = width / 2;
             const y = getY(data[0].value);
             points = `${padding},${y} ${width - padding},${y}`;
-            areaPoints = `${padding},${height - padding} ${padding},${y} ${width - padding},${y} ${width - padding},${height - padding}`;
         } else {
             points = data.map((d, i) => `${getX(i)},${getY(d.value)}`).join(' ');
-            areaPoints = `${padding},${height - padding} ${points} ${width - padding},${height - padding}`;
         }
 
         // Generate bezier curve path
