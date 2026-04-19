@@ -13,7 +13,7 @@ export const useWebSocket = (topics = [], onNewOrder) => {
         if (!currentTopics || currentTopics.length === 0) return;
 
         const client = new Client({
-            webSocketFactory: () => new SockJS('http://localhost:8081/ws'),
+            webSocketFactory: () => new SockJS(process.env.REACT_APP_WS_URL || 'http://localhost:8081/ws'),
             reconnectDelay: 5000,
             heartbeatIncoming: 4000,
             heartbeatOutgoing: 4000,
